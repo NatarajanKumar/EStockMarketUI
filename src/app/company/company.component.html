@@ -1,0 +1,177 @@
+<app-navbar></app-navbar>
+<div class="container">
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>business_center</mat-icon>
+  </button>
+  <span>Company</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="warn" (click)="openDialog()">Add Company</button>
+</mat-toolbar>
+</div>
+<div class="container">
+  <div style="margin-top: 10px;">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <div>
+      {{result[0].companyName}}
+      {{dataSource}}
+
+    </div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="companyID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+          <td mat-cell *matCellDef="let row"> {{row.companyID}} </td>
+        </ng-container>
+
+        <!-- Progress Column -->
+        <ng-container matColumnDef="companyName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.companyName}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="companyCEO">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> CEO </th>
+          <td mat-cell *matCellDef="let row"> {{row.companyCEO}} </td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="companyTurnover">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Turnover </th>
+          <td mat-cell *matCellDef="let row"> {{row.companyTurnover}} </td>
+        </ng-container>
+        <ng-container matColumnDef="companyWebsite">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Website </th>
+          <td mat-cell *matCellDef="let row"> {{row.companyWebsite}} </td>
+        </ng-container>
+        <ng-container matColumnDef="stockExchange">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Exchange </th>
+          <td mat-cell *matCellDef="let row"> {{row.stockExchange}} </td>
+        </ng-container>
+        <ng-container matColumnDef="created_By">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+          <td mat-cell *matCellDef="let row"> {{row.created_By}} </td>
+        </ng-container>
+        <ng-container matColumnDef="created_At">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>
+          <td mat-cell *matCellDef="let row"> {{row.created_At}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button (click)="editCompany(row)" color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="container">
+  <div class="row">
+    <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)">
+      <input type="hidden" name="id" [value]="service.formData.CompanyID" />
+      <div class="form-group">
+        <label>Company Name</label>
+        <input class="form-control form-control-lg" placeholder="Enter Company name" name="CompanyName"
+          #CompanyName="ngModel" [(ngModel)]="service.formData.CompanyName" required
+          [class.invalid]="CompanyName.invalid && CompanyName.touched">
+      </div>
+      <div class="form-group">
+        <label>Company CEO</label>
+        <input class="form-control form-control-lg" placeholder="Enter Company CEO Name" name="CompanyCEO"
+          #CompanyCEO="ngModel" [(ngModel)]="service.formData.CompanyCEO" required
+          [class.invalid]="CompanyCEO.invalid && CompanyCEO.touched">
+      </div>
+      <div class="form-group">
+        <label>Company Turnover</label>
+        <input class="form-control form-control-lg" placeholder="Enter Company Turnover" name="CompanyTurnover"
+          #CompanyTurnover="ngModel" [(ngModel)]="service.formData.CompanyTurnover" required
+          [class.invalid]="CompanyTurnover.invalid && CompanyTurnover.touched">
+      </div>
+      <div class="form-group">
+        <label>Company Website</label>
+        <input class="form-control form-control-lg" placeholder="Enter Company Website" name="CompanyWebsite"
+          #CompanyWebsite="ngModel" [(ngModel)]="service.formData.CompanyWebsite" required
+          [class.invalid]="CompanyWebsite.invalid && CompanyWebsite.touched">
+      </div>
+      <div class="form-group">
+        <label>Stock Exchange</label>
+        <input class="form-control form-control-lg" placeholder="Enter Stock Exchange" name="StockExchange"
+          #StockExchange="ngModel" [(ngModel)]="service.formData.StockExchange" required
+          [class.invalid]="StockExchange.invalid && StockExchange.touched">
+      </div>
+      <div class="form-group">
+        <label>Created_By</label>
+        <input class="form-control form-control-lg" placeholder="Enter your name" name="Created_By"
+          #Created_By="ngModel" [(ngModel)]="service.formData.Created_By" required
+          [class.invalid]="Created_By.invalid && Created_By.touched">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+   <div class="jumbotron py-3">
+  <h1 class="display-2 text-center">Student Details Crud</h1>
+</div>
+
+  <div class="row">
+     <div class="col-md-6">
+    <app-student-details-form></app-student-details-form>
+  </div>
+     <div class="col-md-6">
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Company Name</th>
+          <th>Company CEO</th>
+          <th>Company Turnover</th>
+          <th>Company Website</th>
+          <th>Stock Exchange</th>
+          <th>Created_By</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cd of service.list">
+          <td (click)="populateForm(cd)">{{cd.CompanyName}}</td>
+          <td (click)="populateForm(cd)">{{cd.CompanyCEO}}</td>
+          <td (click)="populateForm(cd)">{{cd.CompanyTurnover}}</td>
+          <td (click)="populateForm(cd)">{{cd.CompanyWebsite}}</td>
+          <td (click)="populateForm(cd)">{{cd.StockExchange}}</td>
+          <td (click)="populateForm(cd)">{{cd.Created_By}}</td>
+          <td>
+            <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(cd.CompanyID)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>  -->
+

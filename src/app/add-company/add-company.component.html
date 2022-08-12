@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Add Company</h1>
+<div mat-dialog-content>
+<form [formGroup]="companyForm">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input formControlName="Name" matInput placeholder="Placeholder">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>CEO</mat-label>
+    <input formControlName="CEO" matInput placeholder="Placeholder">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Turnover</mat-label>
+    <input formControlName="Turnover" matInput placeholder="Placeholder">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Website</mat-label>
+    <input formControlName="Website" matInput placeholder="Placeholder">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Stock Exchange</mat-label>
+    <input formControlName="StockExchange" matInput placeholder="Placeholder">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Created By</mat-label>
+    <input formControlName="CreatedBy" matInput placeholder="Placeholder">
+  </mat-form-field>
+</form>
+</div>
+<div>
+  <mat-dialog-actions [align]="'end'">
+    <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+    <button mat-raised-button color="primary" (click)="AddCompany()">Save</button>
+  </mat-dialog-actions>
+</div>
